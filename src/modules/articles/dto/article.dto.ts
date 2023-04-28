@@ -32,17 +32,19 @@ enum SortOptions {
 }
 
 interface IFilterArticles {
-  keyword?: string;
-  searchIn?: SearchIn;
+  q?: string;
+  title?: string;
+  description?: string;
+  content?: string;
   sources?: string;
   domains?: string;
   excludeDomains?: string;
-  period?: {
-    from?: Date;
-    to?: Date;
-  };
+  from?: string;
+  to?: string;
   language?: Language;
   sortBy?: SortOptions;
+  page?: string;
+  pageSize?: string;
 }
 
 export type { IFilterArticles, SortOptions, Language, SearchIn, Keyword };

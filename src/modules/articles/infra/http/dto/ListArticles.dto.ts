@@ -1,15 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
 import {
   IFilterArticles,
   Language,
-  SearchIn,
   SortOptions,
 } from 'src/modules/articles/dto/article.dto';
-import { SearchInDto, SortOptionsDto } from './Filters.dto';
 
 export class ListArticles implements IFilterArticles {
+  @IsString()
+  @IsOptional()
+  page?: string;
+
+  @IsString()
+  @IsOptional()
+  pageSize?: string;
+
   @IsString()
   @IsOptional()
   @ApiProperty({
@@ -17,13 +22,44 @@ export class ListArticles implements IFilterArticles {
     example: 'q=searchKey',
     type: [String],
   })
-  keyword?: string;
+  q?: string;
 
-  @Type(() => SearchInDto)
-  searchIn?: SearchIn;
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'Search in title',
+    example: 'Title of book',
+    type: [String],
+  })
+  title?: string;
 
-  @Type(() => SortOptionsDto)
-  sortBy?: SortOptions;
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'Search in description',
+    example: 'This article talk about mathematics',
+    type: [String],
+  })
+  description?: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'Seach in content article',
+    example: 'Part of article, seconde paragraph',
+    type: [String],
+  })
+  content?: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'Sort articles by element',
+    example: 'relevancy',
+    type: [String],
+  })
+  @IsEnum(['relevancy', 'popularity', 'publishedAt'])
+  sortBy: SortOptions;
 
   @IsString()
   @IsOptional()
@@ -50,7 +86,16 @@ export class ListArticles implements IFilterArticles {
     example: '28/04/2023',
     type: [String],
   })
-  period?: { from?: Date; to?: Date };
+  from?: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty({
+    description: 'Filter by period',
+    example: '28/04/2023',
+    type: [String],
+  })
+  to?: string;
 
   @IsString()
   @IsOptional()
